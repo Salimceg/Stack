@@ -1,0 +1,102 @@
+
+// This fundamental stack work is about pop and push function
+
+#include <stdio.h>
+
+#define SIZE 10  
+
+
+typedef struct {
+    int data[SIZE];
+    int top;
+} Stack;
+
+
+void initializeStack(Stack *stack) {
+    stack->top = -1;  
+}
+
+
+void push(Stack *stack, int num) {
+    if (stack->top < SIZE - 1) {  
+        stack->top++;
+        stack->data[stack->top] = num;  
+    }
+}
+
+
+int correctOrder(Stack *stack) {
+    for (int i = 0; i < stack->top; i++) {
+        if (stack->data[i] > stack->data[i + 1]) {
+            return 0;  
+        }
+    }
+    return 1;  
+}
+
+void sortNumbers(int arr[], int size) {
+    int temp;
+    for (int i = 0; i < size -i- 1; i++) {
+        for (int j = 0; j < size  - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int choice = 0;  
+
+    while (choice != 2) {
+        
+        printf("\n  *Number Order Checker*\n");
+        printf("1) Enter a new set of numbers\n");
+        printf("2) Exit\n");
+        printf("Choose an option: ");
+        scanf("%d", &choice);
+
+        if (choice == 1) {  
+            Stack stack;
+            initializeStack(&stack);
+            int num;
+            int originalNumbers[SIZE];
+
+            
+            printf("\nEnter 10 numbers one by one:\n");
+            for (int i = 0; i < SIZE; i++) {
+                printf("Enter number %d: ", i + 1);
+                scanf("%d", &num);
+                push(&stack, num); 
+                originalNumbers[i] = num;  
+            }
+
+            
+            printf("\nYou entered: ");
+            for (int i = 0; i < SIZE; i++) {
+                printf("%d ", originalNumbers[i]);
+            }
+
+            
+            if (correctOrder(&stack)) {
+                printf("\nThe numbers are in the correct order.\n");
+            } else {
+                printf("\nThe numbers are NOT in order.\n");
+
+                
+                sortNumbers(originalNumbers, SIZE);
+
+                
+                printf("*The correct order: ");
+                for (int i = 0; i < SIZE; i++) {
+                    printf("%d ", originalNumbers[i]);
+                }
+                printf("\n");
+            }
+        }
+    }
+
+    return 0;
+}
